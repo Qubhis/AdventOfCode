@@ -53,7 +53,7 @@ def get_co2_scrubber_rating():
         most_common = get_most_common_bit_by_position(report, bit_position)
         bit_to_keep = most_common[0][0]
         if most_common[0][1] == most_common[1][1]:
-            bit_to_keep = "1"
+            bit_to_keep = ONE
 
         return list(filter(lambda number: number[bit_position] == bit_to_keep, report))
 
@@ -61,7 +61,7 @@ def get_co2_scrubber_rating():
         most_common = get_most_common_bit_by_position(report, bit_position)
         bit_to_keep = most_common[1][0]
         if most_common[0][1] == most_common[1][1]:
-            bit_to_keep = "0"
+            bit_to_keep = ZERO
 
         return list(filter(lambda number: number[bit_position] == bit_to_keep, report))
 
