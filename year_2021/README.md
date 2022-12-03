@@ -1,11 +1,11 @@
-# AdventOfCode2022
+# AdventOfCode2021
 
 _see https://adventofcode.com/2021_
 
 ## Progress
 
 -   [x] Day 01 - Sonar Sweep
--   [ ] Day 02
+-   [x] Day 02 - Dive!
 -   [ ] Day 03
 -   [ ] Day 04
 -   [ ] Day 05
