@@ -15,10 +15,9 @@ class SubmarinePosition:
 
     def handle_step_forward(self, value):
         if self.is_aimed:
-            self.horizontal_position += value
             self.depth += self.aim * value
-        else:
-            self.horizontal_position += value
+
+        self.horizontal_position += value
 
     def handle_step_up(self, value):
         if self.is_aimed:
