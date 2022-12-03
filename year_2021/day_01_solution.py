@@ -20,14 +20,7 @@ def get_total_increases(measurements: list) -> int:
     return total_increases
 
 
-def get_number_of_depth_measurement_increases():
-    measurements = transform_lines(lines)
-
-    return get_total_increases(measurements)
-
-
-def get_number_of_three_measurement_increases():
-    measurements = transform_lines(lines)
+def generate_three_dimensional_sums(measurements):
     three_dimensional_sums = []
     for idx, measurement in enumerate(measurements):
         if idx + 2 > len(measurements) - 1:
@@ -37,6 +30,19 @@ def get_number_of_three_measurement_increases():
         three_dimensional_sums.append(
             measurement + measurements[idx + 1] + measurements[idx + 2]
         )
+
+    return three_dimensional_sums
+
+
+def get_number_of_depth_measurement_increases():
+    measurements = transform_lines(lines)
+
+    return get_total_increases(measurements)
+
+
+def get_number_of_three_measurement_increases():
+    measurements = transform_lines(lines)
+    three_dimensional_sums = generate_three_dimensional_sums(measurements)
 
     return get_total_increases(three_dimensional_sums)
 
