@@ -3,7 +3,7 @@ import string
 from utils import load_file
 
 
-INPUT_FILE = "year_2022/day_03_input.txt"
+INPUT_FILE = "year_2022/inputs/day_03.txt"
 ascii_letters = list(string.ascii_lowercase + string.ascii_uppercase)
 item_priority = {letter: value for value, letter in enumerate(ascii_letters, start=1)}
 

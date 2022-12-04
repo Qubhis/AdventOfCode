@@ -1,7 +1,7 @@
 from utils import load_file
 
 
-INPUT_FILE = "year_2022/day_01_input.txt"
+INPUT_FILE = "year_2022/inputs/day_01.txt"
 
 lines = load_file(INPUT_FILE)
 calories = [line.replace("\n", "") for line in lines]

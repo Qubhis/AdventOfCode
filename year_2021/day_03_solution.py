@@ -3,7 +3,7 @@ from collections import Counter
 from utils import load_file
 
 
-INPUT_FILE = "year_2021/day_03_input.txt"
+INPUT_FILE = "year_2021/inputs/day_03.txt"
 ONE = "1"
 ZERO = "0"
 

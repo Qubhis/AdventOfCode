@@ -1,7 +1,7 @@
 from utils import load_file
 
 
-INPUT_FILE = "year_2022/day_02_input.txt"
+INPUT_FILE = "year_2022/inputs/day_02.txt"
 
 LOST = "lost"
 ROCK = "rock"

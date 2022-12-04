@@ -1,7 +1,7 @@
 from utils import load_file
 
 
-INPUT_FILE = "year_2021/day_02_input.txt"
+INPUT_FILE = "year_2021/inputs/day_02.txt"
 FORWARD = "forward"
 UP = "up"
 
