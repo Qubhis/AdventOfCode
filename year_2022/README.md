@@ -7,7 +7,7 @@ _see https://adventofcode.com/2022_
 [x] Day 01 - Calorie Counting  
 [x] Day 02 - Rock Paper Scissors  
 [x] Day 03 - Rucksack Reorganization  
-[ ] Day 04  
+[x] Day 04 - Camp Cleanup
 [ ] Day 05  
 [ ] Day 06  
 [ ] Day 07  
