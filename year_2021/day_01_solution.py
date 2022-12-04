@@ -1,7 +1,7 @@
 from utils import load_file
 
 
-INPUT_FILE = "year_2021/day_01_input.txt"
+INPUT_FILE = "year_2021/inputs/day_01.txt"
 
 
 def transform_lines(lines: list):
