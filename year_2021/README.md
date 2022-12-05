@@ -7,7 +7,7 @@ _see https://adventofcode.com/2021_
 -   [x] Day 01 - Sonar Sweep
 -   [x] Day 02 - Dive!
 -   [x] Day 03 - Binary Diagnostics
--   [ ] Day 04
+-   [x] Day 04 - Giant Squid
 -   [ ] Day 05
 -   [ ] Day 06
 -   [ ] Day 07

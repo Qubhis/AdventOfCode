@@ -8,7 +8,7 @@ _see https://adventofcode.com/2022_
 -   [x] Day 02 - Rock Paper Scissors
 -   [x] Day 03 - Rucksack Reorganization
 -   [x] Day 04 - Camp Cleanup
--   [ ] Day 05
+-   [x] Day 05 - Supply Stacks
 -   [ ] Day 06
 -   [ ] Day 07
 -   [ ] Day 08
