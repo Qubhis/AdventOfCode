@@ -9,7 +9,7 @@ _see https://adventofcode.com/2022_
 -   [x] Day 03 - Rucksack Reorganization
 -   [x] Day 04 - Camp Cleanup
 -   [x] Day 05 - Supply Stacks
--   [ ] Day 06
+-   [x] Day 06 - Tuning Trouble
 -   [ ] Day 07
 -   [ ] Day 08
 -   [ ] Day 09
