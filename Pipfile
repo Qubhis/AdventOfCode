@@ -12,7 +12,3 @@ flake8 = "*"
 
 [requires]
 python_version = "3.10"
-
-[scripts]
-22_01 = "python year_2022/day_01_solution.py"
-22_02= "python year_2022/day_02_solution.py"
