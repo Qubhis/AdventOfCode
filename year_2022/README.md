@@ -10,7 +10,7 @@ _see https://adventofcode.com/2022_
 -   [x] Day 04 - Camp Cleanup
 -   [x] Day 05 - Supply Stacks
 -   [x] Day 06 - Tuning Trouble
--   [ ] Day 07
+-   [x] Day 07 - No Space Left On Device
 -   [ ] Day 08
 -   [ ] Day 09
 -   [ ] Day 10
