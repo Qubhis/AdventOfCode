@@ -11,7 +11,7 @@ _see https://adventofcode.com/2022_
 -   [x] Day 05 - Supply Stacks
 -   [x] Day 06 - Tuning Trouble
 -   [x] Day 07 - No Space Left On Device
--   [ ] Day 08
+-   [x] Day 08 - Treetop Tree House
 -   [ ] Day 09
 -   [ ] Day 10
 -   [ ] Day 11
