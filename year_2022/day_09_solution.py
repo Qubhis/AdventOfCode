@@ -1,3 +1,5 @@
+from dataclasses import dataclass
+
 from utils import load_file
 
 INPUT_FILE = "year_2022/inputs/day_09.txt"
@@ -7,140 +9,80 @@ LEFT = "L"
 UP = "U"
 DOWN = "D"
 
-TAIL_POSSIBLE_ADJUSTMENTS = {
-    (-1, 2): (-1, 1),
-    (0, 2): (0, 1),
-    (1, 2): (1, 1),
-    (2, 1): (1, 1),
-    (2, 0): (1, 0),
-    (2, -1): (1, -1),
-    (1, -2): (1, -1),
-    (0, -2): (0, -1),
-    (-1, -2): (-1, -1),
-    (-2, -1): (-1, -1),
-    (-2, 0): (-1, 0),
-    (-2, 1): (-1, 1),
+DIRECTIONS = {
+    RIGHT: {"add_x": 1, "add_y": 0},
+    LEFT: {"add_x": -1, "add_y": 0},
+    UP: {"add_x": 0, "add_y": 1},
+    DOWN: {"add_x": 0, "add_y": -1},
 }
 
 
-class Coordinate:
-    def __init__(self, x, y):
-        self.x = x
-        self.y = y
+@dataclass
+class Knot:
+    x: int
+    y: int
 
-
-class MapCoordinate(Coordinate):
-    def __init__(self, x, y):
-        super().__init__(x, y)
-        self.tail_visits = 1
-
-    def tail_was_here(self):
-        self.tail_visits += 1
+    def change_position(self, add_x, add_y):
+        self.x += add_x
+        self.y += add_y
 
 
 class Rope:
-    def __init__(self) -> None:
-        self.head = Coordinate(0, 0)
-        self.tail = Coordinate(0, 0)
+    def __init__(self, knots_count):
+        self.knots = self.create_rope(knots_count)
 
-    def move(self, direction: str):
-        directions = {
-            RIGHT: {"add_x": 1, "add_y": 0},
-            LEFT: {"add_x": -1, "add_y": 0},
-            UP: {"add_x": 0, "add_y": 1},
-            DOWN: {"add_x": 0, "add_y": -1},
-        }
-        adjust_position = directions[direction]
-        self.change_head_coordinates(adjust_position)
+    def create_rope(self, knots_count):
+        return [Knot(x=0, y=0) for _ in range(knots_count)]
 
-        return self.adjust_tail_coordinates()
+    def __len__(self):
+        return len(self.knots)
 
-    def change_head_coordinates(self, adjust_position: dict):
-        self.head.x += adjust_position["add_x"]
-        self.head.y += adjust_position["add_y"]
+    def get_head(self):
+        return self.knots[0]
 
-    def adjust_tail_coordinates(self):
-        head_x, head_y = self.get_head_coordinates()
-        tail_x, tail_y = self.get_tail_coordinates()
-        diff_x, diff_y = (head_x - tail_x, head_y - tail_y)
-        add_x, add_y = TAIL_POSSIBLE_ADJUSTMENTS.get((diff_x, diff_y), (0, 0))  # type: ignore
+    def get_knot_and_previous(self, knot_idx):
+        return self.knots[knot_idx], self.knots[knot_idx - 1]
 
-        self.tail.x += add_x
-        self.tail.y += add_y
-        has_moved = True if abs(add_x) > 0 or abs(add_y) > 0 else False
-
-        return has_moved
-        """
-        Differences read top row, right column, bottom row, left column - clockwise (starting 11 hour)
-        . . . . . . .
-        . . H H H . .
-        . H x x x H .
-        . H x T x H .
-        . H x x x H .
-        . . H H H . .
-        . . . . . . .
-
-        """
-        """
-        x = -1, y = 2   =>  x = -1, y = 1
-        x = 0, y = 2    =>  x = 0, y = 1
-        x = 1, y = 2    =>  x = 1, y = 1
-
-        x = 2, y = 1    =>  x = 1, y = 1
-        x = 2, y = 0,   =>  x = 1, y = 0
-        x = 2, y = -1   =>  x = 1, y = -1
-
-        x = 1, y = -2   =>  x = 1, y = -1
-        x = 0, y = -2   =>  x = 0, y = -1
-        x = -1, y = -2  =>  x = -1, y = -1
-
-        x = -2, y = -1, =>  x = -1, y = -1
-        x = -2, y = 0,  =>  x = -1, y = 0
-        x = -2, y = 1   =>  x = -1, y = 1
-        """
-
-    def get_head_coordinates(self):
-        return (self.head.x, self.head.y)
-
-    def get_tail_coordinates(self):
-        return (self.tail.x, self.tail.y)
+    def get_tail(self):
+        return self.knots[-1]
 
 
-class MotionMapper:
-    def __init__(self):
-        self.rope = Rope()
-        self.existing_coordinates = dict()
-        self.add_new_coordinate(x=0, y=0)
+def get_tail_visits_for_rope(knots_count):
+    visited_positions = set()
+    rope = Rope(knots_count)
 
-    def process_move(self, direction: str, steps: int):
-        for step in range(steps):
-            has_tail_moved = self.rope.move(direction)
-            if has_tail_moved:
-                self.handle_tail_moved()
+    for (direction, distance) in lines:
+        for _ in range(int(distance)):
+            # Move the head
+            head = rope.get_head()
+            head.change_position(**DIRECTIONS[direction])
+            # Move other knots
+            for knot_idx in range(1, len(rope)):
+                curr_knot, previous_knot = rope.get_knot_and_previous(knot_idx)
 
-    def handle_tail_moved(self):
-        (tail_x, tail_y) = self.rope.get_tail_coordinates()
-        existing_coordinate = self.existing_coordinates.get((tail_x, tail_y), None)  # type: ignore
-        if existing_coordinate:
-            existing_coordinate.tail_was_here()
-        else:
-            self.add_new_coordinate(x=tail_x, y=tail_y)
+                delta_x, delta_y = (
+                    previous_knot.x - curr_knot.x,
+                    previous_knot.y - curr_knot.y,
+                )
 
-    def add_new_coordinate(self, x, y):
-        self.existing_coordinates[(x, y)] = MapCoordinate(x=x, y=y)
+                # If the knot is further than 1 away from the previous knot, move it closer
+                if delta_x >= 2 or delta_x <= -2 or delta_y >= 2 or delta_y <= -2:
+                    add_x = max(-1, min(1, delta_x))
+                    add_y = max(-1, min(1, delta_y))
+
+                    curr_knot.change_position(add_x=add_x, add_y=add_y)
+
+                tail = rope.get_tail()
+                visited_positions.add((tail.x, tail.y))
+
+    return len(visited_positions)
 
 
-# ##########################################
-motion_mapper = MotionMapper()
-for line in load_file(INPUT_FILE):
-    direction, steps = line.strip().split(" ")
-    motion_mapper.process_move(direction, int(steps))
-
-tail_visited_coordinates = [
-    coordinate
-    for coordinate in motion_mapper.existing_coordinates.values()
-    if coordinate.tail_visits > 0
-]
-
-print(f"Tail visited {len(tail_visited_coordinates)} positions at least once.")
-# print(f"The highest scenic score in our forest is {get_highest_scenic_score()}.")
+# #################################################################3
+lines = [line.strip().split(" ") for line in load_file(INPUT_FILE)]
+print(
+    f"Tail visited {get_tail_visits_for_rope(knots_count=2)} positions at least once."
+)
+print(
+    f"Tail visited {get_tail_visits_for_rope(knots_count=10)} positions at least once."
+)
