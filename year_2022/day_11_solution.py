@@ -52,18 +52,22 @@ class Monkey:
             else self.division_test["if_false"]
         )
 
-    def inspect_items(self):
+    def inspect_items(self, get_bored=True):
         inspected_items = []
-        for idx in range(len(self.items)):
-            item = self.items.pop(0)
+        while len(self.items):
+            item = self.remove_item()
             worry_level = self.operate_on_worriness(item)
-            worry_level = self.get_bored(worry_level)
+            if get_bored:
+                worry_level = self.get_bored(worry_level)
             catching_monkey_idx = self.get_catching_monkey_index(worry_level)
             inspected_items.append((worry_level, catching_monkey_idx))
 
         self.total_inspected_items += len(inspected_items)
 
         return inspected_items
+
+    def remove_item(self):
+        return self.items.pop()
 
     def add_item(self, item):
         self.items.append(item)
@@ -121,20 +125,28 @@ def parse_if_branch(line):
     return int(monkey_idx)
 
 
-def throw_items(inspected_items):
-    for (item, monkey_idx) in inspected_items:
-        monkeys[monkey_idx].add_item(item)
+def get_monkey_business_level(rounds: int, is_bored_accounted=True):
+    def throw_items(inspected_items):
+        for (item, monkey_idx) in inspected_items:
+            monkeys[monkey_idx].add_item(item)
+
+    monkeys = parse_input_get_monkeys()
+    for round in range(rounds):
+        for monkey in monkeys:
+            inspected_items = monkey.inspect_items(get_bored=is_bored_accounted)
+            throw_items(inspected_items)
+
+    inspection_count = sorted([monkey.total_inspected_items for monkey in monkeys])
+    monkey_business = inspection_count[-1] * inspection_count[-2]
+
+    return monkey_business
 
 
 # #################################################################
-monkeys = parse_input_get_monkeys()
-rounds = 20
-for round in range(rounds):
-    for monkey in monkeys:
-        inspected_items = monkey.inspect_items()
-        throw_items(inspected_items)
 
-inspection_count = sorted([monkey.total_inspected_items for monkey in monkeys])
-monkey_business = inspection_count[-1] * inspection_count[-2]
-
-print(f"Monkey business level after 20 rounds is {monkey_business}")
+print(
+    f"Monkey business level after 20 rounds is {get_monkey_business_level(rounds=20)}"
+)
+# print(
+#     f"Monkey business level after 10 000 rounds is {get_monkey_business_level(rounds=10_000, is_bored_accounted=False)}"
+# )
