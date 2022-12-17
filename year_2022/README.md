@@ -12,7 +12,7 @@ _see https://adventofcode.com/2022_
 -   [x] Day 06 - Tuning Trouble
 -   [x] Day 07 - No Space Left On Device
 -   [x] Day 08 - Treetop Tree House
--   [ ] Day 09
+-   [x] Day 09 - Rope Bridge
 -   [ ] Day 10
 -   [ ] Day 11
 -   [ ] Day 12
