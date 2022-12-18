@@ -1,4 +1,6 @@
+import functools
 import math
+import operator
 
 from utils import load_file
 
@@ -6,23 +8,7 @@ from utils import load_file
 INPUT_FILE = "year_2022/inputs/day_11.txt"
 
 
-def add(a, b):
-    return a + b
-
-
-def subtract(a, b):
-    return a - b
-
-
-def multiply(a, b):
-    return a * b
-
-
-def divide(a, b):
-    return a / b
-
-
-OPERATIONS = {"+": add, "-": subtract, "*": multiply, "/": divide}
+OPERATIONS = {"+": operator.add, "*": operator.mul}
 
 
 class Monkey:
@@ -35,10 +21,13 @@ class Monkey:
         self.division_test = kwargs["division_test"]
         self.total_inspected_items = 0
 
-    def operate_on_worriness(self, worry_level):
+    def operate_on_worriness(self, worry_level, is_bored):
         operand = worry_level if self.operand == "self" else self.operand
+        new_worry_level = OPERATIONS[self.operation](worry_level, operand)
+        if is_bored:
+            new_worry_level = self.get_bored(new_worry_level)
 
-        return OPERATIONS[self.operation](worry_level, operand)
+        return new_worry_level % self.common_monkey_divisor
 
     def get_bored(self, worry_level):
         return math.floor(worry_level / 3)
@@ -56,9 +45,7 @@ class Monkey:
         inspected_items = []
         while len(self.items):
             item = self.remove_item()
-            worry_level = self.operate_on_worriness(item)
-            if get_bored:
-                worry_level = self.get_bored(worry_level)
+            worry_level = self.operate_on_worriness(item, get_bored)
             catching_monkey_idx = self.get_catching_monkey_index(worry_level)
             inspected_items.append((worry_level, catching_monkey_idx))
 
@@ -71,6 +58,9 @@ class Monkey:
 
     def add_item(self, item):
         self.items.append(item)
+
+    def add_common_divisor(self, common_divisor: int):
+        self.common_monkey_divisor = common_divisor
 
 
 def parse_input_get_monkeys():
@@ -96,6 +86,13 @@ def parse_input_get_monkeys():
         }
 
         monkeys.append(Monkey(**monkey_properties))
+    # Using modular arithmetic rules, we can find if a worry level is passing each division test
+    # by applying modulo with common divisor of all monkeys
+    common_divisor = functools.reduce(
+        lambda a, b: a * b, [monkey.division_test["by"] for monkey in monkeys]
+    )
+    for monkey in monkeys:
+        monkey.add_common_divisor(common_divisor)
 
     return monkeys
 
@@ -147,6 +144,6 @@ def get_monkey_business_level(rounds: int, is_bored_accounted=True):
 print(
     f"Monkey business level after 20 rounds is {get_monkey_business_level(rounds=20)}"
 )
-# print(
-#     f"Monkey business level after 10 000 rounds is {get_monkey_business_level(rounds=10_000, is_bored_accounted=False)}"
-# )
+print(
+    f"Monkey business level after 10 000 rounds is {get_monkey_business_level(rounds=10_000, is_bored_accounted=False)}"
+)
