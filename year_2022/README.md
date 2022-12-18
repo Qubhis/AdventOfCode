@@ -14,7 +14,7 @@ _see https://adventofcode.com/2022_
 -   [x] Day 08 - Treetop Tree House
 -   [x] Day 09 - Rope Bridge
 -   [x] Day 10 - Cathode-Ray Tube
--   [ ] Day 11
+-   [x] Day 11 - Monkey in the Middle
 -   [ ] Day 12
 -   [ ] Day 13
 -   [ ] Day 14
