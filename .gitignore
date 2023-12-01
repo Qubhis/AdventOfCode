@@ -133,3 +133,6 @@ Pipfile.lock
 
 # VS Code
 .vscode/
+
+# misc
+**/temp.py
